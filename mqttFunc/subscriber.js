@@ -5,6 +5,14 @@ const mqttOptions = {
   username: "thinhdadn",
   password: "hehe",
 };
+// const topics1 = [
+//   "thinhdadn/feeds/V2/humidity",
+//   "thinhdadn/feeds/V2/temperature",
+//   "thinhdadn/feeds/V2/sun",
+//   "thinhdadn/feeds/V2/door",
+//   "thinhdadn/feeds/V2/lights",
+//   "thinhdadn/feeds/V2/fan",
+// ];
 const client = mqtt.connect(mqttOptions);
 client.on("connect", () => {
   console.log("Connected to MQTT broker");
@@ -29,6 +37,11 @@ client.on("connect", () => {
 // Handle MQTT message reception
 client.on("message", (topic, message) => {
   console.log(`Received message on topic ${topic}: ${message.toString()}`);
+  // Check if the received topic is in the list of subscribed topics
+  //   if (!topics1.includes(topic)) {
+  //     console.log("Received message on unsubscribed topic:", topic);
+  //     return;
+  //   }
   switch (topic) {
     case "thinhdadn/feeds/V2/lights":
       // Handle messages for the "light" topic
