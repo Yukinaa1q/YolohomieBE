@@ -1,26 +1,37 @@
 const router = require("express").Router();
-let light = 0;
+let light1 = 0;
+let light2 = 0;
+let light3 = 0;
+let light4 = 0;
 let fan = 0;
 let door = 0;
 router.post("/lightControl", async (req, res) => {
   const { signal } = req.body;
   try {
-    light = parseInt(signal);
+    let light = parseInt(signal);
     if (light == 11) {
+      light1 = 11;
       res.json({ message: "Light 1 has turned on", light: 1 });
     } else if (light == 12) {
+      light2 = 12;
       res.json({ message: "Light 2 has turned on", light: 2 });
     } else if (light == 13) {
+      light3 = 13;
       res.json({ message: "Light 3 has turned on", light: 3 });
     } else if (light == 14) {
+      light4 = 14;
       res.json({ message: "Light 4 has turned on", light: 4 });
     } else if (light == 21) {
+      light1 = 21;
       res.json({ message: "Light 1 has turned off", light: 1 });
     } else if (light == 22) {
+      light2 = 22;
       res.json({ message: "Light 2 has turned off", light: 2 });
     } else if (light == 23) {
+      light3 = 23;
       res.json({ message: "Light 3 has turned off", light: 3 });
     } else if (light == 24) {
+      light4 = 24;
       res.json({ message: "Light 4 has turned off", light: 4 });
     }
   } catch (error) {
@@ -30,7 +41,12 @@ router.post("/lightControl", async (req, res) => {
 
 router.get("/lightControl", async (req, res) => {
   try {
-    res.json({ signalLight: String(light) });
+    let result = [];
+    result.push(light1);
+    result.push(light2);
+    result.push(light3);
+    result.push(light4);
+    res.json({ signalLight: result });
   } catch (error) {
     res.json({ error: error.message });
   }
