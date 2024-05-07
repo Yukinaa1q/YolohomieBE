@@ -7,21 +7,21 @@ router.post("/lightControl", async (req, res) => {
   try {
     light = parseInt(signal);
     if (light == 11) {
-      res.json({ message: "Light 1 has turned on  " });
+      res.json({ message: "Light 1 has turned on", light: 1 });
     } else if (light == 12) {
-      res.json({ message: "Light 2 has turned on" });
+      res.json({ message: "Light 2 has turned on", light: 2 });
     } else if (light == 13) {
-      res.json({ message: "Light 3 has turned on" });
+      res.json({ message: "Light 3 has turned on", light: 3 });
     } else if (light == 14) {
-      res.json({ message: "Light 4 has turned on" });
+      res.json({ message: "Light 4 has turned on", light: 4 });
     } else if (light == 21) {
-      res.json({ message: "Light 1 has turned off" });
+      res.json({ message: "Light 1 has turned off", light: 1 });
     } else if (light == 22) {
-      res.json({ message: "Light 2 has turned off" });
+      res.json({ message: "Light 2 has turned off", light: 2 });
     } else if (light == 23) {
-      res.json({ message: "Light 3 has turned off" });
-    } else if (light == 244) {
-      res.json({ message: "Light 4 has turned off" });
+      res.json({ message: "Light 3 has turned off", light: 3 });
+    } else if (light == 24) {
+      res.json({ message: "Light 4 has turned off", light: 4 });
     }
   } catch (error) {
     res.json({ error: error.message });
@@ -30,7 +30,7 @@ router.post("/lightControl", async (req, res) => {
 
 router.get("/lightControl", async (req, res) => {
   try {
-    res.json({ signalLight: light });
+    res.json({ signalLight: String(light) });
   } catch (error) {
     res.json({ error: error.message });
   }
@@ -58,7 +58,7 @@ router.post("/fanControl", async (req, res) => {
 
 router.get("/fanControl", async (req, res) => {
   try {
-    res.json({ signalFan: fan });
+    res.json({ signalFan: String(fan) });
   } catch (error) {
     res.json({ error: error.message });
   }
@@ -78,7 +78,7 @@ router.post("/doorControl", async (req, res) => {
 });
 router.get("/doorControl", async (req, res) => {
   try {
-    res.json({ signalFan: door });
+    res.json({ signalFan: String(door) });
   } catch (error) {
     res.json({ error: error.message });
   }
