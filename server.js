@@ -3,6 +3,7 @@ const express = require("express");
 const { publishMessage } = require("./mqttFunc/publisher");
 const app = express();
 require("dotenv").config();
+const controlRoute = require("./api/controllFunction.js");
 
 app.use(express.json());
 
@@ -19,7 +20,7 @@ app.post("/publish/topic/message", (req, res) => {
 
   res.json({ message: "Message published successfully" });
 });
-
+app.use("/", controlRoute);
 // Start Express server
 
 app.listen(process.env.PORT, () => {

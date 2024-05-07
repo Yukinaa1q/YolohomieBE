@@ -1,4 +1,36 @@
 const mqtt = require("mqtt");
+const { url } = require("../link.js");
+const axios = require("axios");
+const utility = async (signal) => {
+  try {
+    const response = await axios.post(`${url}/lightControl`, {
+      signal: signal,
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+const utility1 = async (signal) => {
+  try {
+    const response = await axios.post(`${url}/fanControl`, {
+      signal: signal,
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+const utility2 = async (signal) => {
+  try {
+    const response = await axios.post(`${url}/doorControl`, {
+      signal: signal,
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 const mqttOptions = {
   host: "mqtt.ohstem.vn",
   port: 1883,
@@ -47,21 +79,21 @@ client.on("message", (topic, message) => {
       // Handle messages for the "light" topic
       if (message.toString() === "11") {
         // Turn on a device or perform any other action
-        console.log("Turning on LED 1...");
+        utility("11");
       } else if (message.toString() === "12") {
-        console.log("Turning on LED 2...");
+        utility("12");
       } else if (message.toString() === "13") {
-        console.log("Turning on LED 3...");
+        utility("13");
       } else if (message.toString() === "14") {
-        console.log("Turning on LED 4...");
+        utility("1");
       } else if (message.toString() === "21") {
-        console.log("Turning off LED 1...");
+        utility("21");
       } else if (message.toString() === "22") {
-        console.log("Turning off LED 2...");
+        utility("22");
       } else if (message.toString() === "23") {
-        console.log("Turning off LED 3...");
+        utility("23");
       } else if (message.toString() === "24") {
-        console.log("Turning off LED 4...");
+        utility("24");
       } else {
         // Handle other message content
         console.log(
@@ -84,9 +116,9 @@ client.on("message", (topic, message) => {
     case "thinhdadn/feeds/V2/door":
       if (message.toString() === "31") {
         // Turn on a device or perform any other action
-        console.log("Open the door...");
+        utility2("31");
       } else if (message.toString() === "32") {
-        console.log("Close the door...");
+        utility2("32");
       } else {
         console.log(
           "Received message with unrecognized content:",
@@ -98,15 +130,15 @@ client.on("message", (topic, message) => {
     case "thinhdadn/feeds/V2/fan":
       if (message.toString() === "40") {
         // Turn on a device or perform any other action
-        console.log("Turing off the fan...");
+        utility1("40");
       } else if (message.toString() === "425") {
-        console.log("Turning on the fan at 25% speed...");
+        utility1("425");
       } else if (message.toString() === "450") {
-        console.log("Turning on the fan at 50% speed...");
+        utility1("450");
       } else if (message.toString() === "475") {
-        console.log("Turning on the fan at 75% speed...");
+        utility1("475");
       } else if (message.toString() === "4100") {
-        console.log("Turning on the fan at max speed...");
+        utility1("4100");
       } else {
         console.log(
           "Received message with unrecognized content:",
