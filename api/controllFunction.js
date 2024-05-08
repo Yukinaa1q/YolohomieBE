@@ -1,37 +1,54 @@
 const router = require("express").Router();
-let light1 = 0;
-let light2 = 0;
-let light3 = 0;
-let light4 = 0;
-let fan = 0;
-let door = 0;
+const fs = require("fs");
+
 router.post("/lightControl", async (req, res) => {
   const { signal } = req.body;
+  const status = JSON.parse(fs.readFileSync("statusfile.json"));
+
   try {
     let light = parseInt(signal);
+
     if (light == 11) {
-      light1 = 11;
-      res.json({ message: "Light 1 has turned on", light: 1 });
+      console.log("helo");
+      // status.light1 = light;
+      // fs.writeFileSync(
+      //   "statusfile.json",
+      //   JSON.stringify(status, null, 2),
+      //   (err) => {
+      //     if (err) {
+      //       res.status(500).json({ error: err.message });
+      //     } else {
+      //       res.json({ message: "Light 1 has turned on", light: 1 });
+      //     }
+      //   }
+      // );
     } else if (light == 12) {
-      light2 = 12;
+      status.light2 = light;
+      fs.writeFileSync("statusfile.json", JSON.stringify(status, null, 2)); // Write the updated status object to the file
       res.json({ message: "Light 2 has turned on", light: 2 });
     } else if (light == 13) {
-      light3 = 13;
+      status.light3 = light;
+      fs.writeFileSync("statusfile.json", JSON.stringify(status, null, 2)); // Write the updated status object to the file
       res.json({ message: "Light 3 has turned on", light: 3 });
     } else if (light == 14) {
-      light4 = 14;
+      status.light4 = light;
+      fs.writeFileSync("statusfile.json", JSON.stringify(status, null, 2)); // Write the updated status object to the file
       res.json({ message: "Light 4 has turned on", light: 4 });
     } else if (light == 21) {
-      light1 = 21;
+      status.light1 = light;
+      fs.writeFileSync("statusfile.json", JSON.stringify(status, null, 2)); // Write the updated status object to the file
       res.json({ message: "Light 1 has turned off", light: 1 });
     } else if (light == 22) {
-      light2 = 22;
+      status.light2 = light;
+      fs.writeFileSync("statusfile.json", JSON.stringify(status, null, 2)); // Write the updated status object to the file
       res.json({ message: "Light 2 has turned off", light: 2 });
     } else if (light == 23) {
-      light3 = 23;
+      status.light3 = light;
+      fs.writeFileSync("statusfile.json", JSON.stringify(status, null, 2)); // Write the updated status object to the file
       res.json({ message: "Light 3 has turned off", light: 3 });
     } else if (light == 24) {
-      light4 = 24;
+      status.light4 = light;
+      fs.writeFileSync("statusfile.json", JSON.stringify(status, null, 2)); // Write the updated status object to the file
       res.json({ message: "Light 4 has turned off", light: 4 });
     }
   } catch (error) {
@@ -40,13 +57,10 @@ router.post("/lightControl", async (req, res) => {
 });
 
 router.get("/lightControl", async (req, res) => {
+  const status = JSON.parse(fs.readFileSync("statusfile.json"));
+
   try {
-    let result = [];
-    result.push(light1);
-    result.push(light2);
-    result.push(light3);
-    result.push(light4);
-    res.json({ signalLight: result });
+    res.json({ signalLight: status });
   } catch (error) {
     res.json({ error: error.message });
   }
