@@ -85,7 +85,7 @@ client.on("message", (topic, message) => {
       } else if (message.toString() === "13") {
         utility("13");
       } else if (message.toString() === "14") {
-        utility("1");
+        utility("14");
       } else if (message.toString() === "21") {
         utility("21");
       } else if (message.toString() === "22") {
