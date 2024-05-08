@@ -10,7 +10,7 @@ app.use(express.json());
 // Express route to publish message to MQTT broker
 app.post("/publish/topic/message", (req, res) => {
   const { topic, message } = req.body;
-
+  console.log("publish Api");
   if (!topic || !message) {
     return res.status(400).json({ error: "Topic and message are required" });
   }
