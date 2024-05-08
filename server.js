@@ -3,9 +3,21 @@ const axios = require("axios");
 const { url } = require("./link.js");
 // const { publishMessage } = require("./mqttFunc/publisher");
 const app = express();
+const cors = require("cors");
 require("dotenv").config();
 const controlRoute = require("./api/controllFunction.js");
 const mqtt = require("mqtt");
+app.use(
+  cors({
+    origin: [
+      "http://localhost:8000",
+      "http://localhost:3000",
+      "https://yolohomiebe.onrender.com",
+    ],
+    methods: ["GET", "PUT", "POST", "DELETE"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 const mqttOptions = {
   host: "mqtt.ohstem.vn",
