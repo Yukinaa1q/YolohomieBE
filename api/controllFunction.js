@@ -9,17 +9,8 @@ router.post("/lightControl", async (req, res) => {
     console.log("I was here");
     if (light == 11) {
       status.light1 = light;
-      fs.writeFileSync(
-        "statusfile.json",
-        JSON.stringify(status, null, 2),
-        (error) => {
-          if (error) {
-            res.json({ error: error.message });
-          } else {
-            res.json({ message: "Light 1 has turned on", light: 1 });
-          }
-        }
-      ); // Write the updated status object to the file
+      fs.writeFileSync("statusfile.json", JSON.stringify(status, null, 2));
+      res.json({ message: "Light 1 has turned on", light: 2 });
     } else if (light == 12) {
       status.light2 = light;
       fs.writeFileSync("statusfile.json", JSON.stringify(status, null, 2)); // Write the updated status object to the file
