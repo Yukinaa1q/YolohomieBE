@@ -1,8 +1,8 @@
 {
-  "light1": 0,
-  "light2": 0,
-  "light3": 0,
-  "light4": 0,
-  "fan": 0,
-  "door": 0
+  "light1": 21,
+  "light2": 22,
+  "light3": 23,
+  "light4": 14,
+  "fan": 425,
+  "door": 31
 }

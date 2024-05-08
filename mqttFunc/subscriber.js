@@ -3,12 +3,13 @@ const { url } = require("../link.js");
 const axios = require("axios");
 const utility = async (signal) => {
   try {
+    console.log("helo");
     const response = await axios.post(`${url}/lightControl`, {
       signal: signal,
     });
     console.log(response.data);
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 };
 const utility1 = async (signal) => {
