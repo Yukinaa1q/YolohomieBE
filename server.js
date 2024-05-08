@@ -82,13 +82,15 @@ client.on("message", (topic, message) => {
       break;
     case "thinhdadn/feeds/V2/temperature":
       // Handle messages for the "temperature" topic
-
+      utility3(message.toString(), 0, 0);
       break;
     case "thinhdadn/feeds/V2/humidity":
       // Handle messages for the "humidity" topic
+      utility3(0, message.toString(), 0);
       break;
     // Add cases for other topics as needed
     case "thinhdadn/feeds/V2/sun":
+      utility3(0, 0, message.toString());
       break;
 
     case "thinhdadn/feeds/V2/door":
@@ -162,7 +164,18 @@ const utility2 = async (signal) => {
     console.log(error);
   }
 };
-
+const utility3 = async (x, y, z) => {
+  try {
+    const response = await axios.post(`${url}/sensorControl`, {
+      data1: x,
+      data2: y,
+      data3: z,
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 // Express route to publish message to MQTT broker
 app.post("/publish/topic/message", (req, res) => {
   const { topic, message } = req.body;

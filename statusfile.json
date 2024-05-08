@@ -4,5 +4,8 @@
   "light3": 23,
   "light4": 14,
   "fan": 40,
-  "door": 31
+  "door": 31,
+  "temp": 100,
+  "humid": 50,
+  "uv": 75
 }

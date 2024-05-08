@@ -52,6 +52,29 @@ router.get("/statusDevices", async (req, res) => {
     res.json({ error: error.message });
   }
 });
+router.post("/sensorControl", async (req, res) => {
+  const { data1, data2, data3 } = req.body;
+  try {
+    const data11 = parseInt(data1);
+    const data12 = parseInt(data2);
+    const data13 = parseInt(data3);
+    if (data11 != 0) {
+      status.temp = data11;
+      fs.writeFileSync("statusfile.json", JSON.stringify(status, null, 2));
+      res.json({ message: "received temp sensor" });
+    } else if (data12 != 0) {
+      status.humid = data12;
+      fs.writeFileSync("statusfile.json", JSON.stringify(status, null, 2));
+      res.json({ message: "received humidity sensor" });
+    } else if (data13 != 0) {
+      status.uv = data13;
+      fs.writeFileSync("statusfile.json", JSON.stringify(status, null, 2));
+      res.json({ message: "received uv sensor" });
+    }
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+});
 
 router.post("/fanControl", async (req, res) => {
   const { signal } = req.body;
