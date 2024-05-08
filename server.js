@@ -6,6 +6,7 @@ const app = express();
 const cors = require("cors");
 require("dotenv").config();
 const controlRoute = require("./api/controllFunction.js");
+const statRoute = require("./api/statFunction.js");
 const mqtt = require("mqtt");
 app.use(
   cors({
@@ -200,7 +201,7 @@ app.post("/publish/topic/message", (req, res) => {
 });
 app.use("/", controlRoute);
 // Start Express server
-
+app.use("/stat", statRoute);
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
 });

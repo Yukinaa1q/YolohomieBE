@@ -1,11 +1,11 @@
 {
   "light1": 11,
-  "light2": 22,
+  "light2": 12,
   "light3": 23,
   "light4": 14,
-  "fan": 40,
+  "fan": 475,
   "door": 31,
-  "temp": 100,
+  "temp": 50,
   "humid": 50,
-  "uv": 75
+  "uv": 20
 }
