@@ -52,12 +52,32 @@ router.get("/uv", async (req, res) => {
     res.json({ error: error.message });
   }
 });
-router.get("/waterpump", async (req, res) => {
+router.get("/waterpump/:uid", async (req, res) => {
+  const { uid } = req.params;
+
   try {
-    const result = await client.query(
-      "SELECT datetime,light FROM tmp_li_humi ORDER BY time asc "
-    );
-    res.json(result.rows);
+    if (parseInt(uid) != 0) {
+      const result = await client.query(
+        "SELECT datetime,amount,uid FROM waterpump WHERE uid=$1 ORDER BY datetime asc ",
+        [parseInt(uid)]
+      );
+      for (let i = 0; i < result.rowCount; i++) {
+        result.rows[i].datetime = moment(result.rows[i].datetime).format(
+          "DD-MM-YYYY hh:mm:ss"
+        );
+      }
+      res.json(result.rows);
+    } else {
+      const result = await client.query(
+        "SELECT datetime,SUM(amount) FROM waterpump GROUP BY datetime ORDER BY datetime asc "
+      );
+      for (let i = 0; i < result.rowCount; i++) {
+        result.rows[i].datetime = moment(result.rows[i].datetime).format(
+          "DD-MM-YYYY hh:mm:ss"
+        );
+      }
+      res.json(result.rows);
+    }
   } catch (error) {
     res.json({ error: error.message });
   }
