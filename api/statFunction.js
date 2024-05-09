@@ -26,6 +26,9 @@ router.get("/humid", async (req, res) => {
     const result = await client.query(
       "SELECT time,humidity FROM tmp_li_humi ORDER BY time asc LIMIT 20 "
     );
+    for (const item in result.rows) {
+      item.time = item.time.toLocaleString();
+    }
     res.json(result.rows);
   } catch (error) {
     res.json({ error: error.message });
