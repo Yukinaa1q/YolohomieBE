@@ -17,6 +17,9 @@ router.get("/temp", async (req, res) => {
     const result = await client.query(
       "SELECT time,temperature FROM tmp_li_humi ORDER BY time asc LIMIT 20"
     );
+    for (let i = 0; i < result.rowCount; i++) {
+      result.rows[i].time = moment(result.rows[i].time).format("hh:mm:ss");
+    }
     res.json(result.rows);
   } catch (error) {
     res.json({ error: error.message });
@@ -28,7 +31,6 @@ router.get("/humid", async (req, res) => {
       "SELECT time,humidity FROM tmp_li_humi ORDER BY time asc LIMIT 20 "
     );
     console.log("inside api humids");
-    console.log(result.rows[0].time);
     for (let i = 0; i < result.rowCount; i++) {
       result.rows[i].time = moment(result.rows[i].time).format("hh:mm:ss");
     }
@@ -42,6 +44,9 @@ router.get("/uv", async (req, res) => {
     const result = await client.query(
       "SELECT time,light FROM tmp_li_humi ORDER BY time asc LIMIT 20"
     );
+    for (let i = 0; i < result.rowCount; i++) {
+      result.rows[i].time = moment(result.rows[i].time).format("hh:mm:ss");
+    }
     res.json(result.rows);
   } catch (error) {
     res.json({ error: error.message });
