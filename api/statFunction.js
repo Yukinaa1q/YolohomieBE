@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const moment = require("moment");
 const { Client } = require("pg");
 const client = new Client({
   connectionString:
@@ -26,8 +27,10 @@ router.get("/humid", async (req, res) => {
     const result = await client.query(
       "SELECT time,humidity FROM tmp_li_humi ORDER BY time asc LIMIT 20 "
     );
-    for (const item in result.rows) {
-      item.time = item.time.toLocaleString();
+    console.log("inside api humids");
+    console.log(result.rows[0].time);
+    for (let i = 0; i < result.rowCount; i++) {
+      result.rows[i].time = moment(result.rows[i].time).format("hh:mm:ss");
     }
     res.json(result.rows);
   } catch (error) {
