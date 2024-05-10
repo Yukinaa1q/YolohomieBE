@@ -23,6 +23,8 @@ router.get("/temp", async (req, res) => {
     res.json(result.rows);
   } catch (error) {
     res.json({ error: error.message });
+  } finally {
+    await client.end();
   }
 });
 router.get("/humid", async (req, res) => {
@@ -37,6 +39,8 @@ router.get("/humid", async (req, res) => {
     res.json(result.rows);
   } catch (error) {
     res.json({ error: error.message });
+  } finally {
+    await client.end();
   }
 });
 router.get("/uv", async (req, res) => {
@@ -50,6 +54,8 @@ router.get("/uv", async (req, res) => {
     res.json(result.rows);
   } catch (error) {
     res.json({ error: error.message });
+  } finally {
+    await client.end();
   }
 });
 router.get("/waterpump/:uid", async (req, res) => {
@@ -80,6 +86,8 @@ router.get("/waterpump/:uid", async (req, res) => {
     }
   } catch (error) {
     res.json({ error: error.message });
+  } finally {
+    await client.end();
   }
 });
 module.exports = router;
