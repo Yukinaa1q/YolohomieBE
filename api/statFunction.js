@@ -1,12 +1,13 @@
 const router = require("express").Router();
 const moment = require("moment");
 const { Client } = require("pg");
-const client = new Client({
+
+const client1 = new Client({
   connectionString:
     "postgres://yolohomiedata_user:dOzsLSGsIjpn6ETiRUz3hJZeV70KxxoD@dpg-con3gmocmk4c739u2gjg-a.singapore-postgres.render.com/yolohomiedata",
   ssl: { rejectUnauthorized: false },
 });
-client
+client1
   .connect()
   .then(() => console.log("Connected to PostgreSQL database"))
   .catch((err) =>
@@ -14,7 +15,7 @@ client
   );
 router.get("/temp", async (req, res) => {
   try {
-    const result = await client.query(
+    const result = await client1.query(
       "SELECT time,temperature FROM tmp_li_humi ORDER BY time asc LIMIT 20"
     );
     for (let i = 0; i < result.rowCount; i++) {
@@ -23,13 +24,11 @@ router.get("/temp", async (req, res) => {
     res.json(result.rows);
   } catch (error) {
     res.json({ error: error.message });
-  } finally {
-    await client.end();
   }
 });
 router.get("/humid", async (req, res) => {
   try {
-    const result = await client.query(
+    const result = await client1.query(
       "SELECT time,humidity FROM tmp_li_humi ORDER BY time asc LIMIT 20 "
     );
     console.log("inside api humids");
@@ -39,13 +38,11 @@ router.get("/humid", async (req, res) => {
     res.json(result.rows);
   } catch (error) {
     res.json({ error: error.message });
-  } finally {
-    await client.end();
   }
 });
 router.get("/uv", async (req, res) => {
   try {
-    const result = await client.query(
+    const result = await client1.query(
       "SELECT time,light FROM tmp_li_humi ORDER BY time asc LIMIT 20"
     );
     for (let i = 0; i < result.rowCount; i++) {
@@ -54,8 +51,6 @@ router.get("/uv", async (req, res) => {
     res.json(result.rows);
   } catch (error) {
     res.json({ error: error.message });
-  } finally {
-    await client.end();
   }
 });
 router.get("/waterpump/:uid", async (req, res) => {
@@ -63,7 +58,7 @@ router.get("/waterpump/:uid", async (req, res) => {
 
   try {
     if (parseInt(uid) != 0) {
-      const result = await client.query(
+      const result = await client1.query(
         "SELECT datetime,amount,uid FROM waterpump WHERE uid=$1 ORDER BY datetime asc ",
         [parseInt(uid)]
       );
@@ -74,7 +69,7 @@ router.get("/waterpump/:uid", async (req, res) => {
       }
       res.json(result.rows);
     } else {
-      const result = await client.query(
+      const result = await client1.query(
         "SELECT datetime,SUM(amount) FROM waterpump GROUP BY datetime ORDER BY datetime asc "
       );
       for (let i = 0; i < result.rowCount; i++) {
@@ -86,8 +81,6 @@ router.get("/waterpump/:uid", async (req, res) => {
     }
   } catch (error) {
     res.json({ error: error.message });
-  } finally {
-    await client.end();
   }
 });
 module.exports = router;
