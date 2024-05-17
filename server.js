@@ -8,6 +8,7 @@ const cors = require("cors");
 require("dotenv").config();
 const controlRoute = require("./api/controllFunction.js");
 const statRoute = require("./api/statFunction.js");
+const authRoute = require("./api/authFunction.js");
 const mqtt = require("mqtt");
 app.use(
   cors({
@@ -201,6 +202,7 @@ app.post("/publish/topic/message", (req, res) => {
 
   res.json({ message: "Message published successfully" });
 });
+app.use("/auth", authRoute);
 app.use("/", controlRoute);
 // Start Express server
 app.use("/stat", statRoute);
