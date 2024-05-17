@@ -1,6 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const { url } = require("./link.js");
+
 // const { publishMessage } = require("./mqttFunc/publisher");
 const app = express();
 const cors = require("cors");
@@ -20,6 +21,7 @@ app.use(
   })
 );
 app.use(express.json());
+
 const mqttOptions = {
   host: "mqtt.ohstem.vn",
   port: 1883,
@@ -202,6 +204,7 @@ app.post("/publish/topic/message", (req, res) => {
 app.use("/", controlRoute);
 // Start Express server
 app.use("/stat", statRoute);
+
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
 });
