@@ -2,10 +2,10 @@
   "light1": 11,
   "light2": 12,
   "light3": 23,
-  "light4": 14,
-  "fan": 475,
+  "light4": 24,
+  "fan": 4100,
   "door": 32,
-  "temp": 35,
-  "humid": 59,
+  "temp": 31,
+  "humid": 55,
   "uv": 100
 }
