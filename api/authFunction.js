@@ -1,6 +1,13 @@
 const router = require("express").Router();
 const crypto = require("crypto");
 const { Client } = require("pg");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+const createSecretToken = (_id) => {
+  return jwt.sign({ _id }, process.env.TOKEN_KEY, {
+    expiresIn: 3 * 24 * 60 * 60,
+  });
+};
 const hashpass = (password) => {
   const hash = crypto.createHash("sha256");
 
@@ -29,11 +36,18 @@ router.post("/login", async (req, res) => {
       "SELECT email,password FROM yolohome_user WHERE email = $1 AND password = $2",
       [email, hashedpass]
     );
+    const token = createSecretToken(result.rows.email);
+    res.cookie("token", token, {
+      withCredentials: true,
+      httpOnly: false,
+    });
     console.log(result.rows);
     if (result.rows != 0) {
-      res
-        .status(200)
-        .json({ message: "Successfully logged in", success: true });
+      res.status(200).json({
+        message: "Successfully logged in",
+        success: true,
+        token: token,
+      });
     } else {
       res.json({ message: "Wrong username or password" });
     }
