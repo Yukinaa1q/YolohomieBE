@@ -33,10 +33,10 @@ router.post("/login", async (req, res) => {
   try {
     const hashedpass = hashpass(password);
     const result = await client1.query(
-      "SELECT email,password FROM yolohome_user WHERE email = $1 AND password = $2",
+      "SELECT username,email,password FROM yolohome_user WHERE email = $1 AND password = $2",
       [email, hashedpass]
     );
-    const token = createSecretToken(result.rows.email);
+    const token = createSecretToken(result.rows[0].email);
     res.cookie("token", token, {
       withCredentials: true,
       httpOnly: false,
@@ -47,12 +47,29 @@ router.post("/login", async (req, res) => {
         message: "Successfully logged in",
         success: true,
         token: token,
+        username: result.rows[0].username,
       });
     } else {
       res.json({ message: "Wrong username or password" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+router.get("/info/:username", async (req, res) => {
+  const { username } = req.params;
+  console.log(username);
+  try {
+    const result = await client1.query(
+      "SELECT username,email FROM yolohome_user WHERE username = $1",
+      [username]
+    );
+    console.log(result.rows);
+    res
+      .status(200)
+      .json({ username: result.rows[0].username, email: result.rows[0].email });
+  } catch (error) {
+    res.json({ error: error.message });
   }
 });
 module.exports = router;
