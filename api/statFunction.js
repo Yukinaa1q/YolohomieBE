@@ -53,14 +53,14 @@ router.get("/uv", async (req, res) => {
     res.json({ error: error.message });
   }
 });
-router.get("/waterpump/:uid", async (req, res) => {
-  const { uid } = req.params;
+router.get("/waterpump/:name", async (req, res) => {
+  const { name } = req.params;
 
   try {
-    if (parseInt(uid) != 0) {
+    if (name && name != "none") {
       const result = await client1.query(
-        "SELECT datetime,amount,uid FROM waterpump WHERE uid=$1 ORDER BY datetime asc ",
-        [parseInt(uid)]
+        "SELECT datetime,amount,name FROM waterpump WHERE name LIKE $1 ORDER BY datetime asc ",
+        [`${name}%`]
       );
       for (let i = 0; i < result.rowCount; i++) {
         result.rows[i].datetime = moment(result.rows[i].datetime).format(
@@ -68,7 +68,7 @@ router.get("/waterpump/:uid", async (req, res) => {
         );
       }
       res.json(result.rows);
-    } else {
+    } else if (name && name == "all") {
       const result = await client1.query(
         "SELECT datetime,SUM(amount) FROM waterpump GROUP BY datetime ORDER BY datetime asc "
       );
